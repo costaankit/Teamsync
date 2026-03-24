@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 5754,
+        "end_time": 1774259920.6579094,
+        "stacktrace": null,
+        "start_time": 1774259914.9031696,
+        "status": "passed",
+        "thread": "40636-MainThread"
+    },
+    "fields": {},
+    "id": "dc4896af-59c9-4cef-8625-3d29fae8b482",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/ui"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login_ui"
+                }
+            ]
+        }
+    },
+    "signature": "3::tests::ui::test_login_ui.py::test_empty_username[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        3
+    ],
+    "testops_project_mapping": null,
+    "title": "Login with empty username"
+}

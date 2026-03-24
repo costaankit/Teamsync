@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 7691,
+        "end_time": 1774259914.8963509,
+        "stacktrace": null,
+        "start_time": 1774259907.2046719,
+        "status": "passed",
+        "thread": "40636-MainThread"
+    },
+    "fields": {},
+    "id": "4d0a1f88-6760-4590-8c0a-9a848aa177da",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/ui"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login_ui"
+                }
+            ]
+        }
+    },
+    "signature": "2::tests::ui::test_login_ui.py::test_wrong_password[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        2
+    ],
+    "testops_project_mapping": null,
+    "title": "Login with wrong password shows error"
+}

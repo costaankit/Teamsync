@@ -1,0 +1,20 @@
+{
+  "mode": "testops",
+  "fallback": "report",
+  "debug": false,
+  "testops": {
+    "api": {
+      "token": "41c1c2669960aa7cee1319495824f13d19b78324cc93685b29a452684228ee20",
+      "host": "qase.io"
+    },
+    "project": "TEAMSYNC",
+    "run": {
+      "title": "IMIR Login Automation Run",
+      "description": "Automated UI + API tests for IMIR login module",
+      "complete": true
+    },
+    "batch": {
+      "size": 200
+    }
+  }
+}

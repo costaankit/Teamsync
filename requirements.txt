@@ -1,0 +1,7 @@
+playwright
+pytest-playwright
+pytest-html
+requests
+qase-pytest
+python-dotenv
+urllib3

@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 7563,
+        "end_time": 1774259933.7918854,
+        "stacktrace": null,
+        "start_time": 1774259926.228857,
+        "status": "passed",
+        "thread": "40636-MainThread"
+    },
+    "fields": {},
+    "id": "371ea984-fb5d-4f61-be8f-aae837f64776",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/ui"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login_ui"
+                }
+            ]
+        }
+    },
+    "signature": "5::tests::ui::test_login_ui.py::test_invalid_username[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        5
+    ],
+    "testops_project_mapping": null,
+    "title": "Login with invalid username"
+}

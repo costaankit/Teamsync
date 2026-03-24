@@ -1,0 +1,83 @@
+{
+    "environment": null,
+    "execution": {
+        "cumulative_duration": 41917,
+        "duration": 42027,
+        "end_time": 1774259938.2970352,
+        "start_time": 1774259896.2693539
+    },
+    "host_data": {
+        "apiClientV1": "2.0.4",
+        "apiClientV2": "2.0.4",
+        "arch": "AMD64",
+        "commons": "5.0.7",
+        "framework": "",
+        "language": "3.14.2",
+        "machineName": "ANKITTIWARI-CC",
+        "packageManager": "25.3",
+        "release": "11",
+        "reporter": "",
+        "system": "windows",
+        "version": "Microsoft Windows [Version 10.0.26200.7840]"
+    },
+    "results": [
+        {
+            "duration": 5560,
+            "id": "1e33d2a9-6a19-46da-b280-9cb9401190a1",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Login with empty username and password"
+        },
+        {
+            "duration": 4500,
+            "id": "275794b1-824f-4394-abfb-e10ed452964f",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Login page loads with SIGN IN button visible"
+        },
+        {
+            "duration": 7563,
+            "id": "371ea984-fb5d-4f61-be8f-aae837f64776",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Login with invalid username"
+        },
+        {
+            "duration": 7691,
+            "id": "4d0a1f88-6760-4590-8c0a-9a848aa177da",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Login with wrong password shows error"
+        },
+        {
+            "duration": 10849,
+            "id": "d7065a4d-ddf2-46c7-ad12-dd9f67d21c33",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Valid Login with correct credentials"
+        },
+        {
+            "duration": 5754,
+            "id": "dc4896af-59c9-4cef-8625-3d29fae8b482",
+            "status": "passed",
+            "thread": "40636-MainThread",
+            "title": "Login with empty username"
+        }
+    ],
+    "stats": {
+        "blocked": 0,
+        "failed": 0,
+        "invalid": 0,
+        "muted": 0,
+        "passed": 6,
+        "skipped": 0,
+        "total": 6
+    },
+    "suites": [
+        "tests/ui/test_login_ui"
+    ],
+    "threads": [
+        "40636-MainThread"
+    ],
+    "title": "Test run"
+}

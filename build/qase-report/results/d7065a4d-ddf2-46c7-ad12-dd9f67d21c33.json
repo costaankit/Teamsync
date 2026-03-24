@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 10849,
+        "end_time": 1774259907.1996346,
+        "stacktrace": null,
+        "start_time": 1774259896.350233,
+        "status": "passed",
+        "thread": "40636-MainThread"
+    },
+    "fields": {},
+    "id": "d7065a4d-ddf2-46c7-ad12-dd9f67d21c33",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/ui"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login_ui"
+                }
+            ]
+        }
+    },
+    "signature": "1::tests::ui::test_login_ui.py::test_valid_login[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        1
+    ],
+    "testops_project_mapping": null,
+    "title": "Valid Login with correct credentials"
+}
