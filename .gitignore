@@ -1,6 +1,5 @@
 # Never commit these to GitHub
 .env
-reports/
 __pycache__/
 .pytest_cache/
 *.pyc
