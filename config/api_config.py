@@ -8,7 +8,8 @@ BASE_URL = "http://frontdms-teamsync.apps.lab.ocp.lan"
 
 # ── Endpoints ─────────────────────────────────────────────────
 ENDPOINTS = {
-    "login": f"{BASE_URL}/api/tenants/public/users/login",
+    "login":    f"{BASE_URL}/api/tenants/public/users/login",
+    "download": f"{BASE_URL}/api/dms_service_LM/api/download",
 }
 
 # ── Headers ───────────────────────────────────────────────────
