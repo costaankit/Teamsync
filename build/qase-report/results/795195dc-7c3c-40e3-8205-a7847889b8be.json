@@ -1,15 +1,15 @@
 {
     "attachments": [],
     "execution": {
-        "duration": 4500,
-        "end_time": 1774259938.2946682,
+        "duration": 7190,
+        "end_time": 1776428991.6138096,
         "stacktrace": null,
-        "start_time": 1774259933.7945824,
+        "start_time": 1776428984.4237442,
         "status": "passed",
-        "thread": "40636-MainThread"
+        "thread": "12680-MainThread"
     },
     "fields": {},
-    "id": "275794b1-824f-4394-abfb-e10ed452964f",
+    "id": "795195dc-7c3c-40e3-8205-a7847889b8be",
     "message": null,
     "muted": false,
     "param_groups": [],
@@ -21,20 +21,20 @@
             "data": [
                 {
                     "public_id": null,
-                    "title": "tests/ui"
+                    "title": "tests/login"
                 },
                 {
                     "public_id": null,
-                    "title": "test_login_ui"
+                    "title": "test_login"
                 }
             ]
         }
     },
-    "signature": "6::tests::ui::test_login_ui.py::test_page_loads[chromium]::{browser_name:chromium}",
+    "signature": "7::tests::login::test_login.py::test_tc_login_07_invalid_username[chromium]::{browser_name:chromium}",
     "steps": [],
     "testops_ids": [
-        6
+        7
     ],
     "testops_project_mapping": null,
-    "title": "Login page loads with SIGN IN button visible"
+    "title": "TC_Login_07: Non-existent username returns 404 and stays on login page"
 }

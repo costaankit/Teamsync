@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 6881,
+        "end_time": 1776429041.943945,
+        "stacktrace": null,
+        "start_time": 1776429035.0620327,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "6b92aa0d-4458-4c16-9e1b-931023d1f019",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "18::tests::login::test_login.py::test_tc_login_18_error_message_display[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        18
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_18: Wrong credentials show error message on login page"
+}

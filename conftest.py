@@ -1,24 +1,3 @@
-# """
-# conftest.py — TEAMSYNC Project
-# Configures Playwright browser and base settings for all tests.
-# """
-
-# import pytest
-# from playwright.sync_api import sync_playwright
-
-
-# # This file is automatically picked up by pytest.
-# # Playwright fixtures (page, browser, context) are provided
-# # by the pytest-playwright plugin — no extra setup needed here.
-
-# # ── Global settings ──────────────────────────────────────────
-# def pytest_configure(config):
-#     config.addinivalue_line(
-#         "markers", "ui: marks tests as UI/browser tests"
-#     )
-#     config.addinivalue_line(
-#         "markers", "api: marks tests as API tests"
-#     )
 """
 conftest.py — TEAMSYNC Project
 Configures Playwright browser, report generation, and base settings.
@@ -29,11 +8,49 @@ import pytest
 import requests
 from datetime import datetime
 
+from utils.excel_reporter import ExcelReporter
+
 
 # ── Auto-create reports folder ───────────────────────────────
 # Creates reports/ folder automatically before every test run
 # Without this — pytest crashes if reports/ folder is missing
 os.makedirs("reports", exist_ok=True)
+
+
+# ── Excel reporter — writes PASS/FAIL back to Teamsync_testcases.xlsx ──
+# Collects every test outcome during the run and updates STATUS column
+# of the matching Test Case ID row when the session finishes.
+_excel_reporter = ExcelReporter()
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Capture each test's outcome for the Excel reporter.
+
+    Phases pytest reports for each test:
+      • setup    — fixtures run AND @pytest.mark.skip is evaluated here
+      • call     — the test function body actually executes (only if setup passed)
+      • teardown — fixture cleanup (ignored — doesn't change pass/fail)
+
+    Outcomes we care about per phase:
+      • setup → failed  : fixture crashed → test never ran → record as FAILED
+      • setup → skipped : @pytest.mark.skip / skipif fired → record as SKIPPED
+                          (call phase will never run for these)
+      • call  → any     : real test result — record passed/failed/skipped
+                          (pytest.skip() called inside the test reports here)
+    """
+    outcome = yield
+    report = outcome.get_result()
+    if report.when == "setup":
+        if report.outcome in ("failed", "skipped"):
+            _excel_reporter.record(item.name, report.outcome)
+    elif report.when == "call":
+        _excel_reporter.record(item.name, report.outcome)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Write all collected results to Teamsync_testcases.xlsx."""
+    _excel_reporter.write_results()
 
 
 # ── pytest hook — runs before any test starts ────────────────
@@ -57,10 +74,10 @@ def pytest_configure(config):
     # Stops pytest showing "Unknown mark" warnings
     # Lets you run: pytest -m ui   OR   pytest -m api
     config.addinivalue_line(
-        "markers", "ui: marks tests as UI/browser tests (Playwright)"
+        "markers", "login: Combined UI + API tests for Login module"
     )
     config.addinivalue_line(
-        "markers", "api: marks tests as API tests (requests)"
+        "markers", "upload: Combined UI + API tests for Upload module"
     )
 
 
@@ -70,12 +87,12 @@ class ApiClient:
 
     def post(self, url, **kwargs):
         try:
-            response = requests.post(url, timeout=10, **kwargs)
+            response = requests.post(url, timeout=30, **kwargs)
             return response
         except requests.exceptions.ConnectionError:
             pytest.fail(f"Cannot connect to server. Is the app running?\nURL: {url}")
         except requests.exceptions.Timeout:
-            pytest.fail(f"Request timed out after 10 seconds.\nURL: {url}")
+            pytest.fail(f"Request timed out after 30 seconds.\nURL: {url}")
         except requests.exceptions.SSLError:
             pytest.fail(f"SSL certificate error.\nURL: {url}")
         except requests.exceptions.RequestException as e:
@@ -95,3 +112,55 @@ class ApiClient:
 @pytest.fixture
 def api_client():
     return ApiClient()
+
+
+# ── Single browser, single tab for all tests ─────────────────
+# scope="session" → one browser + one tab reused across every test
+
+@pytest.fixture(scope="session")
+def context(browser, browser_context_args):
+    ctx = browser.new_context(**browser_context_args)
+    yield ctx
+    ctx.close()
+
+@pytest.fixture(scope="session")
+def page(context):
+    pg = context.new_page()
+    yield pg
+    pg.close()
+
+
+# ── Bearer token for upload/API tests ────────────────────────
+# Logs in once per session — reused by all upload API tests
+
+@pytest.fixture(scope="session")
+def auth_token():
+    import requests as _req
+    from config.api_config import ENDPOINTS, DEFAULT_HEADERS, VALID_USERNAME, VALID_PASSWORD_ENCRYPTED
+    resp = _req.post(
+        ENDPOINTS["login"],
+        files={"username": (None, VALID_USERNAME), "password": (None, VALID_PASSWORD_ENCRYPTED)},
+        headers=DEFAULT_HEADERS,
+        verify=False,
+        timeout=30,
+    )
+    return resp.json()["access_token"]
+
+
+# ── Auto-logout after every LOGIN test ───────────────────────
+# Only applies to tests in tests/login/ — other modules manage
+# their own session via module-level login fixtures
+
+@pytest.fixture(autouse=True)
+def auto_logout(page, request):
+    yield
+    if "test_login" not in str(request.node.fspath):
+        return
+    try:
+        if "teamsync/home" in page.url:
+            from pages.login_page import LoginPage
+            lp = LoginPage(page)
+            lp.logout()
+    except Exception:
+        from config.api_config import LOGIN_PAGE_URL
+        page.goto(LOGIN_PAGE_URL)

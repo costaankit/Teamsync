@@ -1,15 +1,15 @@
 {
     "attachments": [],
     "execution": {
-        "duration": 10849,
-        "end_time": 1774259907.1996346,
+        "duration": 7666,
+        "end_time": 1776428984.42066,
         "stacktrace": null,
-        "start_time": 1774259896.350233,
+        "start_time": 1776428976.7538872,
         "status": "passed",
-        "thread": "40636-MainThread"
+        "thread": "12680-MainThread"
     },
     "fields": {},
-    "id": "d7065a4d-ddf2-46c7-ad12-dd9f67d21c33",
+    "id": "0dbb51fd-ec48-47ba-b9cd-48f4ba16303f",
     "message": null,
     "muted": false,
     "param_groups": [],
@@ -21,20 +21,20 @@
             "data": [
                 {
                     "public_id": null,
-                    "title": "tests/ui"
+                    "title": "tests/login"
                 },
                 {
                     "public_id": null,
-                    "title": "test_login_ui"
+                    "title": "test_login"
                 }
             ]
         }
     },
-    "signature": "1::tests::ui::test_login_ui.py::test_valid_login[chromium]::{browser_name:chromium}",
+    "signature": "6::tests::login::test_login.py::test_tc_login_06_invalid_password[chromium]::{browser_name:chromium}",
     "steps": [],
     "testops_ids": [
-        1
+        6
     ],
     "testops_project_mapping": null,
-    "title": "Valid Login with correct credentials"
+    "title": "TC_Login_06: Wrong password returns 401 and stays on login page"
 }

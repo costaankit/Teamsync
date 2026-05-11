@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 3303,
+        "end_time": 1776429023.6172638,
+        "stacktrace": null,
+        "start_time": 1776429020.314087,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "87e2ae8a-0d2c-453b-9bcb-3592d3108180",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "14::tests::login::test_login.py::test_tc_login_14_login_button_enabled[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        14
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_14: SIGN IN button is enabled when both fields are filled"
+}

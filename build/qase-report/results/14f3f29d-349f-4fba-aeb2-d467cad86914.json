@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 5272,
+        "end_time": 1776429013.1710281,
+        "stacktrace": null,
+        "start_time": 1776429007.8982258,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "14f3f29d-349f-4fba-aeb2-d467cad86914",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "11::tests::login::test_login.py::test_tc_login_11_invalid_email_format[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        11
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_11: Malformed email returns 400 and stays on login page"
+}

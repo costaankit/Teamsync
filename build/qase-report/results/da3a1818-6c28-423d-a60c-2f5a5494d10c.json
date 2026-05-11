@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 3,
+        "end_time": 1776429013.1770248,
+        "stacktrace": "('C:\\\\Users\\\\ish\\\\Desktop\\\\TEAMSYNC\\\\tests\\\\login\\\\test_login.py', 351, 'Skipped: TC_Login_12 | BLOCKED: No locked account in test env \u2014 create one and update LOCKED_USER')",
+        "start_time": 1776429013.1740189,
+        "status": "skipped",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "da3a1818-6c28-423d-a60c-2f5a5494d10c",
+    "message": " TC_Login_12 | BLOCKED",
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "12::tests::login::test_login.py::test_tc_login_12_account_locked[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        12
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_12: Locked account returns 423 and shows error message"
+}

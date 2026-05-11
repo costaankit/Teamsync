@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 3716,
+        "end_time": 1776429027.3371735,
+        "stacktrace": null,
+        "start_time": 1776429023.6202679,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "873d7e04-5557-497c-bdce-3e67f8047143",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "15::tests::login::test_login.py::test_tc_login_15_login_button_visible_on_load[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        15
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_15: SIGN IN button is visible on initial page load"
+}

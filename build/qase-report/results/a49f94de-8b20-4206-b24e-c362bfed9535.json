@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 3530,
+        "end_time": 1776429030.874754,
+        "stacktrace": null,
+        "start_time": 1776429027.344078,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "a49f94de-8b20-4206-b24e-c362bfed9535",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "16::tests::login::test_login.py::test_tc_login_16_password_masking[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        16
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_16: Password field is masked by default"
+}

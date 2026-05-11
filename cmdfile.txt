@@ -1,1 +1,24 @@
-pytest tests/ui/test_login_ui.py tests/api/test_login_api.py -v --qase-mode=testops --qase-testops-api-token=41c1c2669960aa7cee1319495824f13d19b78324cc93685b29a452684228ee20 --qase-testops-project=TEAMSYNC --qase-testops-run-title="IMIR Full Run - UI + API"
+
+## ──────────────────────────────────────────────────────────────
+## RUN TESTS + AUTO-UPDATE EXCEL (Teamsync_testcases.xlsx)
+## IMPORTANT: Close Teamsync_testcases.xlsx in Excel BEFORE running
+## ──────────────────────────────────────────────────────────────
+
+## Run BOTH modules — updates Login + Upload Test Cases sheets
+pytest tests/login/ tests/upload/ -v --headed -s
+
+## Run ONLY login tests — updates Login sheet only
+pytest tests/login/ -v --headed -s
+
+## Run ONLY upload tests — updates Upload Test Cases sheet only
+pytest tests/upload/ -v --headed -s
+
+## Run a single test (example)
+pytest tests/upload/test_upload.py::test_TC_UpLoad_08_minimum_size_file -v --headed -s
+
+## ──────────────────────────────────────────────────────────────
+## FLAG MEANINGS
+## ──────────────────────────────────────────────────────────────
+## -v        → Verbose — shows each test name as it runs
+## --headed  → Open visible Chromium browser (default is headless)
+## -s        → Show print() output (Excel Reporter summary, debug logs)

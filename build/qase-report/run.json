@@ -1,10 +1,10 @@
 {
     "environment": null,
     "execution": {
-        "cumulative_duration": 41917,
-        "duration": 42027,
-        "end_time": 1774259938.2970352,
-        "start_time": 1774259896.2693539
+        "cumulative_duration": 98414,
+        "duration": 98562,
+        "end_time": 1776429048.0190258,
+        "start_time": 1776428949.456276
     },
     "host_data": {
         "apiClientV1": "2.0.4",
@@ -14,54 +14,145 @@
         "framework": "",
         "language": "3.14.2",
         "machineName": "ANKITTIWARI-CC",
-        "packageManager": "25.3",
+        "packageManager": "26.0.1",
         "release": "11",
         "reporter": "",
         "system": "windows",
-        "version": "Microsoft Windows [Version 10.0.26200.7840]"
+        "version": "Microsoft Windows [Version 10.0.26200.8246]"
     },
     "results": [
         {
-            "duration": 5560,
-            "id": "1e33d2a9-6a19-46da-b280-9cb9401190a1",
+            "duration": 7666,
+            "id": "0dbb51fd-ec48-47ba-b9cd-48f4ba16303f",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Login with empty username and password"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_06: Wrong password returns 401 and stays on login page"
         },
         {
-            "duration": 4500,
-            "id": "275794b1-824f-4394-abfb-e10ed452964f",
+            "duration": 5272,
+            "id": "14f3f29d-349f-4fba-aeb2-d467cad86914",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Login page loads with SIGN IN button visible"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_11: Malformed email returns 400 and stays on login page"
         },
         {
-            "duration": 7563,
-            "id": "371ea984-fb5d-4f61-be8f-aae837f64776",
+            "duration": 7129,
+            "id": "1fe3f579-3c77-4385-9de5-ef00ee22b31b",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Login with invalid username"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_13: Disabled account returns 403 and shows error message"
         },
         {
-            "duration": 7691,
-            "id": "4d0a1f88-6760-4590-8c0a-9a848aa177da",
+            "duration": 4177,
+            "id": "3c30e848-4329-4949-a340-86ba2aa3c355",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Login with wrong password shows error"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_17: Eye icon toggles password visibility"
         },
         {
-            "duration": 10849,
-            "id": "d7065a4d-ddf2-46c7-ad12-dd9f67d21c33",
+            "duration": 6901,
+            "id": "5001b002-d445-4d7e-ad03-33a5e69db5c2",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Valid Login with correct credentials"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_05: Login then logout ends session and shows login page"
         },
         {
-            "duration": 5754,
-            "id": "dc4896af-59c9-4cef-8625-3d29fae8b482",
+            "duration": 4090,
+            "id": "510379e6-313c-4b62-808f-7d4b6a7daa6b",
             "status": "passed",
-            "thread": "40636-MainThread",
-            "title": "Login with empty username"
+            "thread": "12680-MainThread",
+            "title": "TC_Login_02: Login with email format returns 200"
+        },
+        {
+            "duration": 6070,
+            "id": "5c75bfd8-1022-41f5-a0f5-1a379fe0aa03",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_19: Successful login redirects to /teamsync/home"
+        },
+        {
+            "duration": 6881,
+            "id": "6b92aa0d-4458-4c16-9e1b-931023d1f019",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_18: Wrong credentials show error message on login page"
+        },
+        {
+            "duration": 5327,
+            "id": "6d84faaa-b6b3-48ec-b927-c522d6035757",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_09: Empty password returns 400 and stays on login page"
+        },
+        {
+            "duration": 7190,
+            "id": "795195dc-7c3c-40e3-8205-a7847889b8be",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_07: Non-existent username returns 404 and stays on login page"
+        },
+        {
+            "duration": 3716,
+            "id": "873d7e04-5557-497c-bdce-3e67f8047143",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_15: SIGN IN button is visible on initial page load"
+        },
+        {
+            "duration": 3303,
+            "id": "87e2ae8a-0d2c-453b-9bcb-3592d3108180",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_14: SIGN IN button is enabled when both fields are filled"
+        },
+        {
+            "duration": 3530,
+            "id": "a49f94de-8b20-4206-b24e-c362bfed9535",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_16: Password field is masked by default"
+        },
+        {
+            "duration": 3977,
+            "id": "ba73f6ed-bee0-4511-83d0-02aeaa287448",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_03: Login with username returns 200"
+        },
+        {
+            "duration": 3,
+            "id": "da3a1818-6c28-423d-a60c-2f5a5494d10c",
+            "status": "skipped",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_12: Locked account returns 423 and shows error message"
+        },
+        {
+            "duration": 5497,
+            "id": "dbde46c8-06f9-4cfc-b2ce-995cfc1f989a",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_10: Both fields empty returns 400 and stays on login page"
+        },
+        {
+            "duration": 5444,
+            "id": "df179a15-b040-4d03-9d90-9b3c835b3eeb",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_08: Empty username returns 400 and stays on login page"
+        },
+        {
+            "duration": 12235,
+            "id": "e3bd867e-bd0a-4d09-90ce-88307a05c76b",
+            "status": "passed",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_01: Valid credentials return 200 and redirect to dashboard"
+        },
+        {
+            "duration": 6,
+            "id": "ffa65270-6281-4d8a-92dc-a7de0baf07d5",
+            "status": "skipped",
+            "thread": "12680-MainThread",
+            "title": "TC_Login_04: Remember Me checkbox keeps session persistent"
         }
     ],
     "stats": {
@@ -69,15 +160,15 @@
         "failed": 0,
         "invalid": 0,
         "muted": 0,
-        "passed": 6,
-        "skipped": 0,
-        "total": 6
+        "passed": 17,
+        "skipped": 2,
+        "total": 19
     },
     "suites": [
-        "tests/ui/test_login_ui"
+        "tests/login/test_login"
     ],
     "threads": [
-        "40636-MainThread"
+        "12680-MainThread"
     ],
     "title": "Test run"
 }

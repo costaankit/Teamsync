@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 5497,
+        "end_time": 1776429007.8938904,
+        "stacktrace": null,
+        "start_time": 1776429002.396778,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "dbde46c8-06f9-4cfc-b2ce-995cfc1f989a",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "10::tests::login::test_login.py::test_tc_login_10_both_fields_empty[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        10
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_10: Both fields empty returns 400 and stays on login page"
+}

@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 6,
+        "end_time": 1776428969.8454437,
+        "stacktrace": "('C:\\\\Users\\\\ish\\\\Desktop\\\\TEAMSYNC\\\\tests\\\\login\\\\test_login.py', 150, \"Skipped: TC_Login_04 | BLOCKED: 'Remember Me' checkbox not in current UI \u2014 inspect DOM and update selector in login_page.py\")",
+        "start_time": 1776428969.8394432,
+        "status": "skipped",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "ffa65270-6281-4d8a-92dc-a7de0baf07d5",
+    "message": " TC_Login_04 | BLOCKED",
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "4::tests::login::test_login.py::test_tc_login_04_remember_me[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        4
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_04: Remember Me checkbox keeps session persistent"
+}

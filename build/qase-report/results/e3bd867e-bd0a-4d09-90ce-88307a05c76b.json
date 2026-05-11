@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 12235,
+        "end_time": 1776428961.7546444,
+        "stacktrace": null,
+        "start_time": 1776428949.519188,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "e3bd867e-bd0a-4d09-90ce-88307a05c76b",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "1::tests::login::test_login.py::test_tc_login_01_valid_login[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        1
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_01: Valid credentials return 200 and redirect to dashboard"
+}

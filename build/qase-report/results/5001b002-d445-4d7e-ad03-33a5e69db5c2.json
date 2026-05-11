@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 6901,
+        "end_time": 1776428976.7499008,
+        "stacktrace": null,
+        "start_time": 1776428969.847931,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "5001b002-d445-4d7e-ad03-33a5e69db5c2",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "5::tests::login::test_login.py::test_tc_login_05_login_after_logout[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        5
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_05: Login then logout ends session and shows login page"
+}

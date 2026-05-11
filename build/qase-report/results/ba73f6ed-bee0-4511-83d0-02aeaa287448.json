@@ -1,15 +1,15 @@
 {
     "attachments": [],
     "execution": {
-        "duration": 7691,
-        "end_time": 1774259914.8963509,
+        "duration": 3977,
+        "end_time": 1776428969.8299255,
         "stacktrace": null,
-        "start_time": 1774259907.2046719,
+        "start_time": 1776428965.8524761,
         "status": "passed",
-        "thread": "40636-MainThread"
+        "thread": "12680-MainThread"
     },
     "fields": {},
-    "id": "4d0a1f88-6760-4590-8c0a-9a848aa177da",
+    "id": "ba73f6ed-bee0-4511-83d0-02aeaa287448",
     "message": null,
     "muted": false,
     "param_groups": [],
@@ -21,20 +21,20 @@
             "data": [
                 {
                     "public_id": null,
-                    "title": "tests/ui"
+                    "title": "tests/login"
                 },
                 {
                     "public_id": null,
-                    "title": "test_login_ui"
+                    "title": "test_login"
                 }
             ]
         }
     },
-    "signature": "2::tests::ui::test_login_ui.py::test_wrong_password[chromium]::{browser_name:chromium}",
+    "signature": "3::tests::login::test_login.py::test_tc_login_03_login_with_username[chromium]::{browser_name:chromium}",
     "steps": [],
     "testops_ids": [
-        2
+        3
     ],
     "testops_project_mapping": null,
-    "title": "Login with wrong password shows error"
+    "title": "TC_Login_03: Login with username returns 200"
 }

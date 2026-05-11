@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find . -maxdepth 2 -not -path */.* -not -path */__pycache__*)",
+      "Bash(xargs ls:*)"
+    ]
+  }
+}

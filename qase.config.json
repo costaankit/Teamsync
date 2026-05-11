@@ -4,10 +4,10 @@
   "debug": false,
   "testops": {
     "api": {
-      "token": "41c1c2669960aa7cee1319495824f13d19b78324cc93685b29a452684228ee20",
+      "token": "bd0d968d1532dd8250a9b75c86849c6f59b907c52a69513d5892ce1a7122e2f0",
       "host": "qase.io"
     },
-    "project": "TEAMSYNC",
+    "project": "TA",
     "run": {
       "title": "IMIR Login Automation Run",
       "description": "Automated UI + API tests for IMIR login module",

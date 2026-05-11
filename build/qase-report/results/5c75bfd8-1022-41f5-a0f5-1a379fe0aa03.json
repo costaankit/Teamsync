@@ -1,0 +1,40 @@
+{
+    "attachments": [],
+    "execution": {
+        "duration": 6070,
+        "end_time": 1776429048.016508,
+        "stacktrace": null,
+        "start_time": 1776429041.946474,
+        "status": "passed",
+        "thread": "12680-MainThread"
+    },
+    "fields": {},
+    "id": "5c75bfd8-1022-41f5-a0f5-1a379fe0aa03",
+    "message": null,
+    "muted": false,
+    "param_groups": [],
+    "params": {
+        "browser_name": "chromium"
+    },
+    "relations": {
+        "suite": {
+            "data": [
+                {
+                    "public_id": null,
+                    "title": "tests/login"
+                },
+                {
+                    "public_id": null,
+                    "title": "test_login"
+                }
+            ]
+        }
+    },
+    "signature": "19::tests::login::test_login.py::test_tc_login_19_redirect_after_login[chromium]::{browser_name:chromium}",
+    "steps": [],
+    "testops_ids": [
+        19
+    ],
+    "testops_project_mapping": null,
+    "title": "TC_Login_19: Successful login redirects to /teamsync/home"
+}

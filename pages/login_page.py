@@ -4,37 +4,69 @@ App: Intelligent Maintenance Information Repository (IMIR)
 URL: http://frontdms-teamsync.apps.lab.ocp.lan/
 """
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
+from config.api_config import LOGIN_PAGE_URL
 
 
 class LoginPage:
 
     def __init__(self, page: Page):
-        self.page     = page
-        self.url      = "http://frontdms-teamsync.apps.lab.ocp.lan/"
+        self.page           = page
+        self.url            = LOGIN_PAGE_URL
 
-        # ── Exact locators from IMIR HTML inspection ──────────
-        self.username_field = page.locator("input[name='username']")
-        self.password_field = page.locator("input[name='password']")
-        self.sign_in_button = page.locator("button[type='submit']")
+        # ── Locators ──────────────────────────────────────────
+        self.username_field    = page.locator("input[name='username']")
+        self.password_field    = page.locator("input[name='password']")
+        self.sign_in_button    = page.locator("button[type='submit']")
+        self.error_message     = page.locator(".error-message, [class*='error'], [class*='alert'], [role='alert']")
+        self.show_hide_toggle  = page.locator("[class*='password-toggle'], [aria-label*='password'], button:near(input[name='password'])")
+        self.remember_me       = page.locator("input[type='checkbox'][name*='remember'], input[id*='remember']")
 
     def open(self):
-        """Open the IMIR login page and wait for it to fully load"""
         self.page.goto(self.url)
-        self.page.wait_for_load_state("networkidle")
-        # Wait for username field to be ready
+        # "load" fires when DOM + resources are ready
+        # "networkidle" is avoided — SPAs keep background connections alive indefinitely
+        self.page.wait_for_load_state("load")
         self.username_field.wait_for(state="visible", timeout=15000)
 
     def login(self, username: str, password: str):
-        """Fill credentials and click SIGN IN"""
         self.username_field.click()
         self.username_field.fill(username)
         self.password_field.click()
         self.password_field.fill(password)
         self.sign_in_button.click()
 
-    def get_page_title(self):
-        return self.page.title()
+    def logout(self):
+        # Step 1: click the MuiAvatar profile icon (cursor:pointer circle with user initial)
+        avatar = self.page.locator("[class*='MuiAvatar-root'][style*='cursor: pointer']")
+        avatar.wait_for(state="visible", timeout=10000)
+        avatar.click()
 
-    def is_sign_in_button_visible(self):
+        # Step 2: Log Out option appears — click it
+        logout_btn = self.page.get_by_text("Log Out", exact=True)
+        logout_btn.wait_for(state="visible", timeout=5000)
+        logout_btn.click()
+        self.page.wait_for_load_state("load")
+
+    def get_error_message(self) -> str:
+        try:
+            self.error_message.wait_for(state="visible", timeout=5000)
+            return self.error_message.inner_text()
+        except Exception:
+            return ""
+
+    def is_sign_in_button_visible(self) -> bool:
         return self.sign_in_button.is_visible()
+
+    def is_sign_in_button_enabled(self) -> bool:
+        return self.sign_in_button.is_enabled()
+
+    def is_password_masked(self) -> bool:
+        input_type = self.password_field.get_attribute("type")
+        return input_type == "password"
+
+    def get_password_input_type(self) -> str:
+        return self.password_field.get_attribute("type")
+
+    def get_page_title(self) -> str:
+        return self.page.title()

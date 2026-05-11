@@ -1,15 +1,15 @@
 {
     "attachments": [],
     "execution": {
-        "duration": 5754,
-        "end_time": 1774259920.6579094,
+        "duration": 4090,
+        "end_time": 1776428965.8474503,
         "stacktrace": null,
-        "start_time": 1774259914.9031696,
+        "start_time": 1776428961.7571735,
         "status": "passed",
-        "thread": "40636-MainThread"
+        "thread": "12680-MainThread"
     },
     "fields": {},
-    "id": "dc4896af-59c9-4cef-8625-3d29fae8b482",
+    "id": "510379e6-313c-4b62-808f-7d4b6a7daa6b",
     "message": null,
     "muted": false,
     "param_groups": [],
@@ -21,20 +21,20 @@
             "data": [
                 {
                     "public_id": null,
-                    "title": "tests/ui"
+                    "title": "tests/login"
                 },
                 {
                     "public_id": null,
-                    "title": "test_login_ui"
+                    "title": "test_login"
                 }
             ]
         }
     },
-    "signature": "3::tests::ui::test_login_ui.py::test_empty_username[chromium]::{browser_name:chromium}",
+    "signature": "2::tests::login::test_login.py::test_tc_login_02_login_with_email[chromium]::{browser_name:chromium}",
     "steps": [],
     "testops_ids": [
-        3
+        2
     ],
     "testops_project_mapping": null,
-    "title": "Login with empty username"
+    "title": "TC_Login_02: Login with email format returns 200"
 }
