@@ -8,7 +8,7 @@ import pytest
 import requests
 from datetime import datetime
 
-from utils.excel_reporter import ExcelReporter
+from utils.excel_reporter import ExcelReporter, api_tracker
 
 
 # ── Auto-create reports folder ───────────────────────────────
@@ -23,9 +23,34 @@ os.makedirs("reports", exist_ok=True)
 _excel_reporter = ExcelReporter()
 
 
+def _extract_error(report) -> str:
+    """Pull a short, useful error description out of a pytest report.
+
+    For failed tests:   the exception type + message (first line of repr).
+    For skipped tests:  the skip reason ("BLOCKED: ..." etc.)
+    For passed tests:   empty string.
+    """
+    if report.outcome == "passed":
+        return ""
+    # Skipped — pytest stores the reason in longrepr as a tuple
+    if report.outcome == "skipped":
+        if isinstance(report.longrepr, tuple) and len(report.longrepr) >= 3:
+            return str(report.longrepr[2])   # (path, lineno, reason)
+        return str(report.longrepr or "").strip()[:300]
+    # Failed — longrepr is a ReprExceptionInfo or string
+    text = ""
+    if hasattr(report.longrepr, "reprcrash") and report.longrepr.reprcrash:
+        text = report.longrepr.reprcrash.message
+    else:
+        text = str(report.longrepr or "")
+    # Keep the first meaningful line only — full traceback is overkill in Excel
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    return (lines[0] if lines else text)[:300]
+
+
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
-    """Capture each test's outcome for the Excel reporter.
+    """Capture each test's outcome, error, and duration for the Excel reporter.
 
     Phases pytest reports for each test:
       • setup    — fixtures run AND @pytest.mark.skip is evaluated here
@@ -35,17 +60,28 @@ def pytest_runtest_makereport(item, call):
     Outcomes we care about per phase:
       • setup → failed  : fixture crashed → test never ran → record as FAILED
       • setup → skipped : @pytest.mark.skip / skipif fired → record as SKIPPED
-                          (call phase will never run for these)
       • call  → any     : real test result — record passed/failed/skipped
-                          (pytest.skip() called inside the test reports here)
     """
     outcome = yield
     report = outcome.get_result()
     if report.when == "setup":
         if report.outcome in ("failed", "skipped"):
-            _excel_reporter.record(item.name, report.outcome)
+            _excel_reporter.record(
+                item.name,
+                report.outcome,
+                error=_extract_error(report),
+                duration=report.duration,
+            )
     elif report.when == "call":
-        _excel_reporter.record(item.name, report.outcome)
+        # Consume the API status set by `_print()` during the test body
+        api_code = api_tracker.consume()
+        _excel_reporter.record(
+            item.name,
+            report.outcome,
+            api_code=api_code,
+            error=_extract_error(report),
+            duration=report.duration,
+        )
 
 
 def pytest_sessionfinish(session, exitstatus):

@@ -29,6 +29,7 @@ from config.api_config import (
     WRONG_USERNAME,DISABLED_USER,
     INVALID_EMAIL,
 )
+from utils.excel_reporter import api_tracker
 
 LOGIN_URL  = ENDPOINTS["login"]
 LOGOUT_URL = ENDPOINTS["logout"]
@@ -50,6 +51,8 @@ def _api(api_client, username, password, extra_headers=None):
 
 def _print(response, body=None):
     """Print API result in every test run for CI/CD visibility."""
+    # Record the latest API status for the Excel reporter (Script Status Code col)
+    api_tracker.set(response.status_code)
     print(f"\n{'─' * 52}")
     print(f"  [API] Status  : {response.status_code}")
     print(f"  [API] Time    : {response.elapsed.total_seconds() * 1000:.0f}ms")

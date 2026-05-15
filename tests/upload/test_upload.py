@@ -19,6 +19,7 @@ from config.api_config import (
     DEFAULT_HEADERS, ENDPOINTS,
     UPLOAD_EXTRA_HEADERS, DATA_SET_PATH, UPLOAD_FILES, UPLOAD_FOLDER_PATH,
 )
+from utils.excel_reporter import api_tracker
 
 UPLOAD_URL = ENDPOINTS["upload"]
 DS         = DATA_SET_PATH
@@ -92,6 +93,8 @@ def _upload_api(auth_token, filepath, filename=None, extra_headers=None, action=
 
 
 def _print(response):
+    # Record the latest API status for the Excel reporter (Script Status Code col)
+    api_tracker.set(response.status_code)
     print(f"\n{'─' * 52}")
     print(f"  [API] Status : {response.status_code}")
     print(f"  [API] Time   : {response.elapsed.total_seconds() * 1000:.0f}ms")
