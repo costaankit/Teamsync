@@ -115,6 +115,15 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "upload: Combined UI + API tests for Upload module"
     )
+    config.addinivalue_line(
+        "markers", "creation: Combined UI + API tests for Creation module"
+    )
+    config.addinivalue_line(
+        "markers", "delete: Combined UI + API tests for Delete module"
+    )
+    config.addinivalue_line(
+        "markers", "rename: Combined UI + API tests for Rename module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────
@@ -167,9 +176,13 @@ def page(context):
 
 
 # ── Bearer token for upload/API tests ────────────────────────
-# Logs in once per session — reused by all upload API tests
+# Function-scoped: re-logs in before EVERY test that asks for it.
+# Reason: Keycloak tokens expire in ~15 min. With session-scope the same stale
+# token was being handed to every test, so any API call after the 15-min mark
+# returned 401 — cascading failures across long runs (uploads + creation).
+# Cost: ~200 ms login round-trip per API test (~6 s added across the whole run).
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def auth_token():
     import requests as _req
     from config.api_config import ENDPOINTS, DEFAULT_HEADERS, VALID_USERNAME, VALID_PASSWORD_ENCRYPTED

@@ -22,3 +22,6 @@ pytest tests/upload/test_upload.py::test_TC_UpLoad_08_minimum_size_file -v --hea
 ## -v        → Verbose — shows each test name as it runs
 ## --headed  → Open visible Chromium browser (default is headless)
 ## -s        → Show print() output (Excel Reporter summary, debug logs)
+
+----------------------------------------------------------------------------------
+## pytest tests/login/ tests/upload/ tests/creation/ tests/delete/ -v --headed

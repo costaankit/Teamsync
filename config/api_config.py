@@ -12,12 +12,13 @@ LOGIN_PAGE_URL = f"{BASE_URL}/"
 
 # ── Endpoints ─────────────────────────────────────────────────
 ENDPOINTS = {
-    "login"      : f"{BASE_URL}/api/tenants/public/users/login",
-    "logout"     : f"{BASE_URL}/api/tenants/logout",
-    "upload"     : f"{BASE_URL}/api/dmsUploadModule/api/upload",
-    "file_open"  : f"{BASE_URL}/api/dms_service_LM/api/getFileOpenURL",
-    "download"   : f"{BASE_URL}/api/dms_service_LM/api/download",
-    "operations" : f"{BASE_URL}/api/operationModule/api/operations",
+    "login"          : f"{BASE_URL}/api/tenants/public/users/login",
+    "logout"         : f"{BASE_URL}/api/tenants/logout",
+    "upload"         : f"{BASE_URL}/api/dmsUploadModule/api/upload",
+    "file_open"      : f"{BASE_URL}/api/dms_service_LM/api/getFileOpenURL",
+    "download"       : f"{BASE_URL}/api/dms_service_LM/api/download",
+    "operations"     : f"{BASE_URL}/api/operationModule/api/operations",
+    "create_docx"    : f"{BASE_URL}/api/dms_service_LM/api/createNewDocx",
 }
 
 # ── Upload config ─────────────────────────────────────────────

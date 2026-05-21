@@ -146,8 +146,11 @@ def _ui_upload(up, src, on_duplicate="keep_both"):
     # Prefer the last successful one (after Keep Both retry)
     for r in reversed(captured):
         if r.status == 200:
+            # Record for the Excel reporter — same as _print() does for API tests
+            api_tracker.set(r.status)
             return r
     # No 200 anywhere — return the last response so callers see the real error
+    api_tracker.set(captured[-1].status)
     return captured[-1]
 
 

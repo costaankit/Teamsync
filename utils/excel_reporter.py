@@ -56,8 +56,10 @@ STYLES = {
     "skipped": {"text": "Skipped", "fill": "FFEB9C", "font": "9C5700", "white": False},
 }
 
-# Bright-red fill applied to Script error cells when a test fails
+# Soft-red fill for failed-test Script error cells
 FAIL_ERROR_FILL = PatternFill("solid", fgColor="FFE0E0")   # soft red bg for readability
+# Soft-green fill for passed-test Script error cells (shows the HTTP code in green)
+PASS_ERROR_FILL = PatternFill("solid", fgColor="C6EFCE")   # same green as the status cell
 
 # Outcome priority — higher number wins when test has multiple phases
 PRIORITY = {"passed": 1, "skipped": 2, "failed": 3}
@@ -217,8 +219,11 @@ class ExcelReporter:
 
     # ── Internal: row / column finders ────────────────────────
     def _sheet_for(self, tc_id: str) -> str | None:
+        # Case-insensitive prefix match — Excel uses TC_delete_NN (lowercase d)
+        # but tests may use TC_Delete_NN. Either should resolve to the same sheet.
+        tc_lower = tc_id.lower()
         for prefix, sheet in SHEET_MAP.items():
-            if tc_id.startswith(prefix):
+            if tc_lower.startswith(prefix.lower()):
                 return sheet
         return None
 
@@ -246,7 +251,7 @@ class ExcelReporter:
         status_cell.font  = Font(color=style["font"], bold=True)
         status_cell.alignment = Alignment(horizontal="center", vertical="center")
 
-        # ── Col L — Script error (only for failed/skipped) ──
+        # ── Col L — Script error / status code (colored by outcome) ──
         error_cell = ws.cell(row=row, column=COL_SCRIPT_ERROR)
         error_text = self._build_error_text(outcome, api_code, error)
         error_cell.value = error_text
@@ -254,8 +259,13 @@ class ExcelReporter:
             # Soft red background on the error cell for quick scanning
             error_cell.fill = FAIL_ERROR_FILL
             error_cell.font = Font(color="9C0006", bold=False)
+        elif outcome == "passed":
+            # Soft green background for pass — shows the HTTP code in green so
+            # the reader can scan the column for healthy responses at a glance.
+            error_cell.fill = PASS_ERROR_FILL
+            error_cell.font = Font(color="006100", bold=False)
         else:
-            # Clear any previous formatting so re-runs don't leave stale colours
+            # Skipped — clear any previous formatting so re-runs don't leave stale colours
             error_cell.fill = PatternFill(fill_type=None)
             error_cell.font = Font()
 
@@ -265,8 +275,15 @@ class ExcelReporter:
         ts_cell.alignment = Alignment(horizontal="center", vertical="center")
 
     def _build_error_text(self, outcome: str, api_code: int | None, error: str | None) -> str:
-        """Return what to write in the Script error column."""
+        """Return what to write in the Script error column.
+          • passed  → "HTTP 200 OK"  (status code recorded for passing tests too)
+          • failed  → "HTTP 4xx ... | <first line of traceback>"
+          • skipped → skip reason / "Skipped"
+        """
         if outcome == "passed":
+            # For passing tests, still record the API status code that was observed
+            if api_code is not None:
+                return f"HTTP {format_status_code(api_code)}"
             return ""
         parts = []
         if api_code is not None:
