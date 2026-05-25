@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 .playwright/
 
+# Large binary test assets — too big for GitHub
+Data Set/Document_with_all_extension/
+
