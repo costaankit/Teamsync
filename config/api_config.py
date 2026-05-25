@@ -19,6 +19,8 @@ ENDPOINTS = {
     "download"       : f"{BASE_URL}/api/dms_service_LM/api/download",
     "operations"     : f"{BASE_URL}/api/operationModule/api/operations",
     "create_docx"    : f"{BASE_URL}/api/dms_service_LM/api/createNewDocx",
+    "move_file"      : f"{BASE_URL}/api/dms_service_LM/api/moveFile",
+    "move_paths"     : f"{BASE_URL}/api/dms_service_LM/api/movePaths",
 }
 
 # ── Upload config ─────────────────────────────────────────────

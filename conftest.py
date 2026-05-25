@@ -124,6 +124,9 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "rename: Combined UI + API tests for Rename module"
     )
+    config.addinivalue_line(
+        "markers", "move: Combined UI + API tests for Move module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────
