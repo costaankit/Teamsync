@@ -2,7 +2,7 @@ pipeline {
     agent any
  
     environment {
-        NAMESPACE = "DMS_1_automation"
+        NAMESPACE = "Teamsync"
     }
  
     stages {
