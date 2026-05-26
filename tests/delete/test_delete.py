@@ -22,6 +22,8 @@ its pre-condition where the drive may be empty so runs are reliable.
 
 import os
 import uuid
+from typing import Optional
+
 import pytest
 import requests
 from qase.pytest import qase
@@ -76,7 +78,7 @@ def _create_folder_api(auth_token: str, name: str, timeout: int = 30):
     return requests.post(OPERATIONS_URL, json=payload, headers=headers, verify=False, timeout=timeout)
 
 
-def _delete_api(auth_token: str, file_id: str, file_meta: dict | None = None, timeout: int = 30):
+def _delete_api(auth_token: str, file_id: str, file_meta: Optional[dict] = None, timeout: int = 30):
     """Direct delete-API call. file_meta is optional — if absent, a minimal
     payload is sent (used by TC_10 to force a 4xx with a fake ID).
     """

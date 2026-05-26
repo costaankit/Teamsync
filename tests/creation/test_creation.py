@@ -14,6 +14,8 @@ Status:
 
 import os
 import uuid
+from typing import Optional
+
 import pytest
 import requests
 from qase.pytest import qase
@@ -112,7 +114,7 @@ def _list_folder_api(auth_token: str, path: str = "/", timeout: int = 30):
     )
 
 
-def _find_folder_id_by_name(list_response, target_name: str) -> str | None:
+def _find_folder_id_by_name(list_response, target_name: str) -> Optional[str]:
     """Search a list-folder response for a folder by name and return its MongoDB id.
     Handles a few common shape variations of IMIR responses.
     """

@@ -22,6 +22,7 @@ import shutil
 from datetime import datetime
 from http import HTTPStatus
 from pathlib import Path
+from typing import Optional
 
 import openpyxl
 from openpyxl.styles import PatternFill, Font, Alignment
@@ -94,12 +95,12 @@ class _ApiStatusTracker:
     reads via `consume()` after each test ends.
     """
     def __init__(self):
-        self._current_code: int | None = None
+        self._current_code: Optional[int] = None
 
     def set(self, code: int) -> None:
         self._current_code = int(code)
 
-    def consume(self) -> int | None:
+    def consume(self) -> Optional[int]:
         code = self._current_code
         self._current_code = None
         return code
@@ -108,7 +109,7 @@ class _ApiStatusTracker:
 api_tracker = _ApiStatusTracker()
 
 
-def format_status_code(code: int | None) -> str:
+def format_status_code(code: Optional[int]) -> str:
     """'200 OK' / '415 Unsupported Media Type' / '' if no code."""
     if code is None:
         return ""
@@ -134,8 +135,8 @@ class ExcelReporter:
         self,
         test_name: str,
         outcome: str,
-        api_code: int | None = None,
-        error: str | None = None,
+        api_code: Optional[int] = None,
+        error: Optional[str] = None,
         duration: float = 0.0,
     ) -> None:
         match = TC_ID_PATTERN.search(test_name)
@@ -218,7 +219,7 @@ class ExcelReporter:
         self._print_summary(per_sheet_count, not_found)
 
     # ── Internal: row / column finders ────────────────────────
-    def _sheet_for(self, tc_id: str) -> str | None:
+    def _sheet_for(self, tc_id: str) -> Optional[str]:
         # Case-insensitive prefix match — Excel uses TC_delete_NN (lowercase d)
         # but tests may use TC_Delete_NN. Either should resolve to the same sheet.
         tc_lower = tc_id.lower()
@@ -227,7 +228,7 @@ class ExcelReporter:
                 return sheet
         return None
 
-    def _find_row(self, ws, tc_id: str) -> int | None:
+    def _find_row(self, ws, tc_id: str) -> Optional[int]:
         target = tc_id.strip().lower()
         for row in range(1, ws.max_row + 1):
             value = ws.cell(row=row, column=COL_TC_ID).value
@@ -274,7 +275,7 @@ class ExcelReporter:
         ts_cell.value = f"{timestamp.strftime('%Y-%m-%d %H:%M:%S')} ({duration:.2f}s)"
         ts_cell.alignment = Alignment(horizontal="center", vertical="center")
 
-    def _build_error_text(self, outcome: str, api_code: int | None, error: str | None) -> str:
+    def _build_error_text(self, outcome: str, api_code: Optional[int], error: Optional[str]) -> str:
         """Return what to write in the Script error column.
           • passed  → "HTTP 200 OK"  (status code recorded for passing tests too)
           • failed  → "HTTP 4xx ... | <first line of traceback>"
