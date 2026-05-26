@@ -16,10 +16,12 @@ pipeline {
             }
         }
  
-        stage('Install Dependencies') {
+        stage('Verify Python Packages') {
             steps {
                 sh '''
-                pip3 install -r requirements.txt
+                python3 --version
+                pip3 --version
+                playwright --version
                 '''
             }
         }
