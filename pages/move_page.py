@@ -122,6 +122,7 @@ class MovePage:
         If the click happens to TOGGLE-OFF a previously-selected row, the
         move button stays disabled — in that case we click once more to
         re-select."""
+        self._up._dismiss_popup()
         cb = row.locator('.e-checkbox-wrapper').first
         cb.click()
         self.page.wait_for_timeout(300)
@@ -134,6 +135,7 @@ class MovePage:
 
     def select_rows(self, rows) -> int:
         """Tick multiple checkboxes (virtual-grid safe). Returns count ticked."""
+        self._up._dismiss_popup()
         ticked = 0
         for r in rows:
             try:

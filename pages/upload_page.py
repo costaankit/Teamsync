@@ -86,10 +86,18 @@ class UploadPage:
 
     def _dismiss_popup(self):
         """
-        Dismiss the landing page popup only once per session.
-        After the first dismiss, skip the wait entirely — the popup never comes back.
-        This saves ~1500ms per test (was wasting that time on every upload test).
+        Dismiss the landing page popup + hide the DocuTalk chatbot widget.
+        Welcome popup: dismissed once per session (cheap on repeat).
+        Chatbot widget: hidden via CSS on every call — it can re-mount after
+        page reloads or navigations and intercept pointer events on the grid.
         """
+        try:
+            self.page.add_style_tag(content=(
+                "#Bot, .docutalk-bot-container "
+                "{ display: none !important; pointer-events: none !important; }"
+            ))
+        except Exception:
+            pass
         if self._popup_dismissed:
             return
         try:

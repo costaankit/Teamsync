@@ -137,6 +137,7 @@ class DeletePage:
     # ── Selection ─────────────────────────────────────────────
     def select_row(self, row) -> None:
         """Tick a single row's checkbox so the toolbar Delete activates."""
+        self._up._dismiss_popup()
         row.locator('.e-checkbox-wrapper').first.click()
         self.page.wait_for_timeout(300)
 
@@ -149,6 +150,7 @@ class DeletePage:
 
         Returns the number of checkboxes actually ticked.
         """
+        self._up._dismiss_popup()
         ticked = 0
         for r in rows:
             try:
@@ -166,6 +168,7 @@ class DeletePage:
 
     # ── Toolbar + confirmation popup ──────────────────────────
     def click_toolbar_delete(self) -> None:
+        self._up._dismiss_popup()
         self.delete_toolbar_btn.wait_for(state="visible", timeout=5000)
         self.delete_toolbar_btn.click()
         self.page.wait_for_timeout(300)

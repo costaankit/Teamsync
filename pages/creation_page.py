@@ -72,7 +72,14 @@ class CreationPage:
         self.upload_toolbar_btn.wait_for(state="visible", timeout=20000)
 
     def _dismiss_popup(self):
-        """Dismiss landing popup once per session."""
+        """Dismiss landing popup once per session + hide DocuTalk chatbot every call."""
+        try:
+            self.page.add_style_tag(content=(
+                "#Bot, .docutalk-bot-container "
+                "{ display: none !important; pointer-events: none !important; }"
+            ))
+        except Exception:
+            pass
         if self._popup_dismissed:
             return
         try:
