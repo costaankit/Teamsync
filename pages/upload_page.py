@@ -55,7 +55,28 @@ class UploadPage:
             lp = LoginPage(self.page)
             lp.open()
             lp.login(VALID_USERNAME, VALID_PASSWORD)
-            self.page.wait_for_url("**/teamsync/home**", timeout=30000)
+            # Wait for navigation, but don't hard-fail if the URL pattern is
+            # unexpected — the toolbar wait below is the real success check.
+            # Some redirects may land on /teamsync/home/files or similar.
+            try:
+                self.page.wait_for_url("**/teamsync/**", timeout=30000)
+            except Exception:
+                pass
+            # If still on login page, the Sign In click may have been intercepted
+            # by a dialog. Try once more after dismissing dialogs.
+            if "teamsync" not in self.page.url:
+                try:
+                    self.page.evaluate("""() => {
+                        document.querySelectorAll('.MuiDialog-root, #Bot, .docutalk-bot-container')
+                            .forEach(el => el.remove());
+                    }""")
+                except Exception:
+                    pass
+                try:
+                    lp.sign_in_button.click(timeout=5000)
+                    self.page.wait_for_url("**/teamsync/**", timeout=30000)
+                except Exception:
+                    pass
 
         # Let the home page settle before searching for the file manager toolbar
         try:

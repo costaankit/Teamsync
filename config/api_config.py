@@ -75,6 +75,7 @@ UPLOAD_FILES = {
     "empty"       : "0kb.pdf",
     "over_limit"  : "480MB (1).pdf",
     "protected_xlsx" : "protected.xlsx",
+    "large_50mb"  : "large_50mb.bin",
 }
 
 UPLOAD_EXTRA_HEADERS = {

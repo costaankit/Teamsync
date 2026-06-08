@@ -127,6 +127,9 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "move: Combined UI + API tests for Move module"
     )
+    config.addinivalue_line(
+        "markers", "copy_paste: Combined UI + API tests for Copy-Paste module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────
@@ -137,12 +140,12 @@ class ApiClient:
         try:
             response = requests.post(url, timeout=30, **kwargs)
             return response
+        except requests.exceptions.SSLError:
+            pytest.fail(f"SSL certificate error.\nURL: {url}")
         except requests.exceptions.ConnectionError:
             pytest.fail(f"Cannot connect to server. Is the app running?\nURL: {url}")
         except requests.exceptions.Timeout:
             pytest.fail(f"Request timed out after 30 seconds.\nURL: {url}")
-        except requests.exceptions.SSLError:
-            pytest.fail(f"SSL certificate error.\nURL: {url}")
         except requests.exceptions.RequestException as e:
             pytest.fail(f"Request failed: {e}")
 

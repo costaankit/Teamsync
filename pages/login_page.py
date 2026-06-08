@@ -4,6 +4,8 @@ App: Intelligent Maintenance Information Repository (IMIR)
 URL: http://frontdms-teamsync.apps.lab.ocp.lan/
 """
 
+from typing import Optional
+
 from playwright.sync_api import Page
 from config.api_config import LOGIN_PAGE_URL
 
@@ -27,14 +29,36 @@ class LoginPage:
         # "load" fires when DOM + resources are ready
         # "networkidle" is avoided — SPAs keep background connections alive indefinitely
         self.page.wait_for_load_state("load")
+        # Hide the chatbot widget if it appears on the login page —
+        # it can intercept clicks on the Sign In button.
+        try:
+            self.page.add_style_tag(content=(
+                "#Bot, .docutalk-bot-container "
+                "{ display: none !important; pointer-events: none !important; }"
+            ))
+        except Exception:
+            pass
         self.username_field.wait_for(state="visible", timeout=15000)
 
+    def dismiss_blocking_dialogs(self):
+        """Remove any open dialogs / overlays that could intercept the Sign In click."""
+        try:
+            self.page.evaluate("""() => {
+                document.querySelectorAll('.MuiDialog-root, #Bot, .docutalk-bot-container')
+                    .forEach(el => el.remove());
+            }""")
+        except Exception:
+            pass
+
     def login(self, username: str, password: str):
+        self.dismiss_blocking_dialogs()
         self.username_field.click()
         self.username_field.fill(username)
         self.password_field.click()
         self.password_field.fill(password)
-        self.sign_in_button.click()
+        # Use click with longer timeout — sometimes Sign In is briefly disabled
+        # while form validation runs.
+        self.sign_in_button.click(timeout=10000)
 
     def logout(self):
         # Step 1: click the MuiAvatar profile icon (cursor:pointer circle with user initial)
@@ -65,7 +89,7 @@ class LoginPage:
         input_type = self.password_field.get_attribute("type")
         return input_type == "password"
 
-    def get_password_input_type(self) -> str:
+    def get_password_input_type(self) -> Optional[str]:
         return self.password_field.get_attribute("type")
 
     def get_page_title(self) -> str:
