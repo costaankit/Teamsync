@@ -21,7 +21,16 @@ ENDPOINTS = {
     "create_docx"    : f"{BASE_URL}/api/dms_service_LM/api/createNewDocx",
     "move_file"      : f"{BASE_URL}/api/dms_service_LM/api/moveFile",
     "move_paths"     : f"{BASE_URL}/api/dms_service_LM/api/movePaths",
+    "share"          : f"{BASE_URL}/api/dms_service_LM/api/shareWithUsers",
 }
+
+# ── Share-test recipients ─────────────────────────────────────
+SHARE_USER_1 = "sahil@gmail.com"
+SHARE_USER_2 = "pratibha@gmail.com"
+SHARE_INVALID_EMAIL = "abc@"
+
+# Virtual folder id where shared-by-owner files replicate
+SHARED_WITH_OTHERS_FOLDER_ID = "6997edafefbab23233cfbd38"
 
 # ── Upload config ─────────────────────────────────────────────
 # Absolute path avoids Windows forward-slash/backslash mismatch

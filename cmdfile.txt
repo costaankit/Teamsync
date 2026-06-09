@@ -27,3 +27,5 @@ pytest tests/upload/test_upload.py::test_TC_UpLoad_08_minimum_size_file -v --hea
 ## pytest tests/login/ tests/upload/ tests/creation/ tests/delete/ -v --headed
 
 ##pytest tests/login/ tests/upload/ tests/creation/ tests/rename/ tests/move/ tests/delete/ -v --headed
+
+pytest tests/login/ tests/upload/ tests/share tests/creation/ tests/rename/ tests/move/ tests/copy_paste tests/delete/ -v

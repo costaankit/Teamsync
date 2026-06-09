@@ -19,6 +19,7 @@ import os
 import uuid
 import time
 import hashlib
+import mimetypes
 from typing import Optional
 
 import pytest
@@ -157,12 +158,13 @@ def _paste(token: str, target: dict, sources: list, target_path: str = "/") -> r
 
 
 def _upload_file(token: str, file_path: str, timeout: int = 600) -> Optional[requests.Response]:
-    """Upload an arbitrary local file via the upload endpoint. Returns None only
-    if the file isn't on disk — any HTTP response (even errors) is returned."""
+    """Upload a local file using the same format as the working test_upload.py.
+    File binary goes in `files=`, form fields go in `data=`."""
     if not os.path.exists(file_path):
         print(f"  [UPLOAD] File NOT on disk: {file_path}")
         return None
     filename = os.path.basename(file_path)
+    mime = mimetypes.guess_type(file_path)[0] or "application/octet-stream"
     extra = {
         "Type": "File Upload", "username": VALID_USERNAME,
         "generatingAiTheme": "true", "metadataType": "AiMetaDataExtraction",
@@ -171,13 +173,13 @@ def _upload_file(token: str, file_path: str, timeout: int = 600) -> Optional[req
     headers = {**DEFAULT_HEADERS, "Authorization": f"Bearer {token}", **extra}
     try:
         with open(file_path, "rb") as fh:
-            files = {
-                "uploadFiles": (filename, fh, "application/octet-stream"),
-                "path": (None, "/"), "action": (None, "save"), "filename": (None, filename),
-                "metaData": (None, '{"fileType":"","attributes":[]}'),
-            }
-            return requests.post(UPLOAD_URL, files=files, headers=headers,
-                                 verify=False, timeout=timeout)
+            return requests.post(
+                UPLOAD_URL,
+                files={"uploadFiles": (filename, fh, mime)},
+                data={"path": "/", "action": "save", "data": "",
+                      "filename": filename, "metaData": '{"fileType":"","attributes":[]}'},
+                headers=headers, verify=False, timeout=timeout,
+            )
     except Exception as e:
         print(f"  [UPLOAD] Exception during upload of {filename}: {e}")
         return None

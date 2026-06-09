@@ -130,6 +130,9 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "copy_paste: Combined UI + API tests for Copy-Paste module"
     )
+    config.addinivalue_line(
+        "markers", "share: Combined UI + API tests for Share module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────
