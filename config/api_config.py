@@ -22,6 +22,7 @@ ENDPOINTS = {
     "move_file"      : f"{BASE_URL}/api/dms_service_LM/api/moveFile",
     "move_paths"     : f"{BASE_URL}/api/dms_service_LM/api/movePaths",
     "share"          : f"{BASE_URL}/api/dms_service_LM/api/shareWithUsers",
+    "shortcuts"      : f"{BASE_URL}/api/dms_service_LM/api/shortcuts",
 }
 
 # ── Share-test recipients ─────────────────────────────────────
@@ -31,6 +32,10 @@ SHARE_INVALID_EMAIL = "abc@"
 
 # Virtual folder id where shared-by-owner files replicate
 SHARED_WITH_OTHERS_FOLDER_ID = "6997edafefbab23233cfbd38"
+# Virtual folder id where files shared TO the current user appear
+SHARED_WITH_ME_FOLDER_ID = "6997edafefbab23233cfbd37"
+# User's own root drive folder id (Ankit's Drive)
+MY_DRIVE_FOLDER_ID = "6997edafefbab23233cfbd36"
 
 # ── Upload config ─────────────────────────────────────────────
 # Absolute path avoids Windows forward-slash/backslash mismatch

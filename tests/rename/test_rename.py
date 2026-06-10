@@ -94,6 +94,11 @@ def rp(page):
     return RenamePage(page)
 
 
+@pytest.fixture(scope="module")
+def token() -> str:
+    return _api_token()
+
+
 @pytest.fixture(autouse=True)
 def _close_lingering_dialog(page):
     """Negative tests intentionally leave the rename dialog open; close any
@@ -118,6 +123,29 @@ def _pick_file_row(rp: RenamePage):
     """First non-system FILE row, scrolled into view."""
     loc = rp.page.locator('tr.e-row:not(.Restricted):has(.e-fe-icon:not(.e-fe-folder))')
     return rp.scroll_until_visible(loc)
+
+
+def _seed_file_row(rp: RenamePage, token: str):
+    """Create a fresh docx via API, reload the grid, and return its row.
+    Used by rename tests instead of _pick_file_row so each test gets a clean
+    user-owned file (avoiding shortcuts, shared-file replicas, and stale
+    leftovers from other modules that aren't renameable).
+    Returns None if creation or location fails."""
+    name = f"renf_{uuid.uuid4().hex[:8]}.docx"
+    headers = {**DEFAULT_HEADERS, "Authorization": f"Bearer {token}",
+               "username": VALID_USERNAME, "type": "Files", "generatingAiTheme": "true"}
+    fields = {
+        "path": (None, "/"), "action": (None, "save"), "filename": (None, name),
+        "metaData": (None, '{"fileType":"","attributes":[]}'), "fileExt": (None, "docx"),
+        "generatingAiTheme": (None, "true"), "theme": (None, "defaultTheme"),
+    }
+    try:
+        requests.post(CREATE_DOCX_URL, files=fields, headers=headers,
+                      verify=False, timeout=30)
+    except Exception:
+        return None
+    rp.reload_grid()
+    return rp.scroll_until_visible(rp.find_row_by_name(name))
 
 
 def _pick_folder_row(rp: RenamePage):
@@ -198,11 +226,11 @@ def _assert_rename_rejected(rp: RenamePage, context: str):
 @qase.id(121)
 @qase.title("TC_RENAME_01: Rename a file via right-click -> Rename")
 @pytest.mark.rename
-def test_TC_RENAME_01_rename_file(rp):
+def test_TC_RENAME_01_rename_file(rp, token):
     """TC_RENAME_01 | Pre: file exists | Expected: 200 OK"""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     print(f"  [INFO] Renaming file '{rp.row_filename(row)}'")
     rp.open_rename_dialog(row)
     rp.set_new_name(f"renfile_{uuid.uuid4().hex[:6]}")
@@ -236,11 +264,11 @@ def test_TC_RENAME_02_rename_folder(rp):
 @qase.id(123)
 @qase.title("TC_RENAME_03: Rename with a normal valid name")
 @pytest.mark.rename
-def test_TC_RENAME_03_valid_name(rp):
+def test_TC_RENAME_03_valid_name(rp, token):
     """TC_RENAME_03 | Pre: file exists | Expected: 200 OK"""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_rename_dialog(row)
     rp.set_new_name(f"ValidName{uuid.uuid4().hex[:6]}")
     resp = _capture_rename(rp)
@@ -254,11 +282,11 @@ def test_TC_RENAME_03_valid_name(rp):
 @qase.id(124)
 @qase.title("TC_RENAME_04: Rename with spaces in the name")
 @pytest.mark.rename
-def test_TC_RENAME_04_with_spaces(rp):
+def test_TC_RENAME_04_with_spaces(rp, token):
     """TC_RENAME_04 | Pre: file exists | Expected: 200 OK (spaces allowed)"""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_rename_dialog(row)
     rp.set_new_name(f"my file {uuid.uuid4().hex[:5]}")
     resp = _capture_rename(rp)
@@ -272,11 +300,11 @@ def test_TC_RENAME_04_with_spaces(rp):
 @qase.id(125)
 @qase.title("TC_RENAME_05: Rename with allowed special characters")
 @pytest.mark.rename
-def test_TC_RENAME_05_special_chars(rp):
+def test_TC_RENAME_05_special_chars(rp, token):
     """TC_RENAME_05 | Pre: file exists | Expected: Success or validated rejection."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_rename_dialog(row)
     rp.set_new_name(f"test@#-_{uuid.uuid4().hex[:5]}")
     if rp.is_confirm_disabled() or rp.get_dialog_error():
@@ -294,11 +322,11 @@ def test_TC_RENAME_05_special_chars(rp):
 @qase.id(126)
 @qase.title("TC_RENAME_06: Rename keeps the file extension unchanged")
 @pytest.mark.rename
-def test_TC_RENAME_06_extension_unchanged(rp):
+def test_TC_RENAME_06_extension_unchanged(rp, token):
     """TC_RENAME_06 | Pre: file exists | Expected: 200 OK, extension preserved."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     orig = rp.row_filename(row)
     orig_ext = orig.rsplit(".", 1)[-1].lower() if "." in orig else ""
     new_base = f"keepext_{uuid.uuid4().hex[:6]}"
@@ -322,11 +350,11 @@ def test_TC_RENAME_06_extension_unchanged(rp):
 @qase.id(127)
 @qase.title("TC_RENAME_07: Renamed name persists after a page refresh")
 @pytest.mark.rename
-def test_TC_RENAME_07_rename_and_refresh(rp):
+def test_TC_RENAME_07_rename_and_refresh(rp, token):
     """TC_RENAME_07 | Pre: file renamed | Expected: new name visible after reload."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     new_base = f"persist_{uuid.uuid4().hex[:6]}"
     rp.open_rename_dialog(row)
     rp.set_new_name(new_base)
@@ -344,11 +372,11 @@ def test_TC_RENAME_07_rename_and_refresh(rp):
 @qase.id(128)
 @qase.title("TC_RENAME_08: Rename through the UI context menu")
 @pytest.mark.rename
-def test_TC_RENAME_08_rename_via_ui(rp):
+def test_TC_RENAME_08_rename_via_ui(rp, token):
     """TC_RENAME_08 | Pre: UI loaded | Expected: 200 OK"""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_context_menu(row)
     assert rp.rename_menu_item.is_visible(), "[UI] 'Rename' context-menu item not visible"
     rp.click_rename()
@@ -383,11 +411,11 @@ def test_TC_RENAME_09_existing_name(rp):
 @qase.id(130)
 @qase.title("TC_RENAME_10: Empty name is rejected")
 @pytest.mark.rename
-def test_TC_RENAME_10_empty_name(rp):
+def test_TC_RENAME_10_empty_name(rp, token):
     """TC_RENAME_10 | Pre: file exists | Expected: 'File cannot be empty'."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_rename_dialog(row)
     rp.set_new_name("")
     _assert_rename_rejected(rp, "Empty name")
@@ -399,11 +427,11 @@ def test_TC_RENAME_10_empty_name(rp):
 @qase.id(131)
 @qase.title("TC_RENAME_11: Spaces-only name is rejected")
 @pytest.mark.rename
-def test_TC_RENAME_11_only_spaces(rp):
+def test_TC_RENAME_11_only_spaces(rp, token):
     """TC_RENAME_11 | Pre: file exists | Expected: 'File cannot be empty'."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     rp.open_rename_dialog(row)
     rp.set_new_name("     ")
     _assert_rename_rejected(rp, "Spaces-only name")
@@ -415,13 +443,13 @@ def test_TC_RENAME_11_only_spaces(rp):
 @qase.id(132)
 @qase.title("TC_RENAME_12: Long name handling (IMIR has no server-side length cap)")
 @pytest.mark.rename
-def test_TC_RENAME_12_too_long_name(rp):
+def test_TC_RENAME_12_too_long_name(rp, token):
     """TC_RENAME_12 | Pre: limit defined | Observed: IMIR has NO length cap on
     rename — a 300-char name is accepted (returns 200). Documented product gap.
     PASS if the UI blocks it OR if the server accepts it (gap noted)."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     long_name = ("A" * 290) + uuid.uuid4().hex[:10]   # unique -> no 409 collision
     rp.open_rename_dialog(row)
     rp.set_new_name(long_name)
@@ -443,13 +471,13 @@ def test_TC_RENAME_12_too_long_name(rp):
 @qase.id(133)
 @qase.title("TC_RENAME_13: Invalid-character handling (IMIR does not block them)")
 @pytest.mark.rename
-def test_TC_RENAME_13_invalid_characters(rp):
+def test_TC_RENAME_13_invalid_characters(rp, token):
     """TC_RENAME_13 | Pre: file exists | Observed: IMIR does NOT reject special
     characters on rename — accepts 200. Documented product gap.
     PASS if the UI blocks it OR the server accepts it."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     special_name = f"inv@#-_ {uuid.uuid4().hex[:6]}"   # unique -> no 409 collision
     rp.open_rename_dialog(row)
     rp.set_new_name(special_name)
@@ -471,13 +499,13 @@ def test_TC_RENAME_13_invalid_characters(rp):
 @qase.id(134)
 @qase.title("TC_RENAME_14: Success snackbar appears after rename")
 @pytest.mark.rename
-def test_TC_RENAME_14_success_message(rp):
+def test_TC_RENAME_14_success_message(rp, token):
     """TC_RENAME_14 | Pre: rename success | Expected: success snackbar shown.
     Polls for the brief snackbar immediately after RENAME; falls back to
     verifying the renamed item is present if IMIR shows no rename toast."""
-    row = _pick_file_row(rp)
+    row = _seed_file_row(rp, token)
     if row is None:
-        pytest.skip("[UI] No file available to rename")
+        pytest.skip("[SEED] Could not seed/find a fresh file")
     new_base = f"snackren_{uuid.uuid4().hex[:6]}"
     rp.open_rename_dialog(row)
     rp.set_new_name(new_base)

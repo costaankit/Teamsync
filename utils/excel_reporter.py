@@ -41,6 +41,7 @@ SHEET_MAP = {
     "TC_Move":     "Move",
     "TC_Share":    "Share",
     "TC_CP":       "Copy-paste",
+    "TC_Shortcut": "Create Shortcut",
 }
 
 # ── Excel column indices (1-based for openpyxl) ───────────────
@@ -70,7 +71,7 @@ PRIORITY = {"passed": 1, "skipped": 2, "failed": 3}
 # Matches:  test_TC_Login_01_valid_login → TC_Login_01
 #           test_TC_UpLoad_08_minimum    → TC_UpLoad_08
 TC_ID_PATTERN = re.compile(
-    r"(TC_(?:Login|UpLoad|Creation|Delete|Rename|Move|Share|CP)_\d+)",
+    r"(TC_(?:Login|UpLoad|Creation|Delete|Rename|Move|Share|CP|Shortcut)_\d+)",
     re.IGNORECASE,
 )
 
