@@ -23,6 +23,7 @@ ENDPOINTS = {
     "move_paths"     : f"{BASE_URL}/api/dms_service_LM/api/movePaths",
     "share"          : f"{BASE_URL}/api/dms_service_LM/api/shareWithUsers",
     "shortcuts"      : f"{BASE_URL}/api/dms_service_LM/api/shortcuts",
+    "restore_files"  : f"{BASE_URL}/api/dms_service_LM/api/restoreFiles",
 }
 
 # ── Share-test recipients ─────────────────────────────────────
@@ -36,6 +37,15 @@ SHARED_WITH_OTHERS_FOLDER_ID = "6997edafefbab23233cfbd38"
 SHARED_WITH_ME_FOLDER_ID = "6997edafefbab23233cfbd37"
 # User's own root drive folder id (Ankit's Drive)
 MY_DRIVE_FOLDER_ID = "6997edafefbab23233cfbd36"
+
+# Trash (Recycle Bin) system folder id — items land here when deleted from the
+# drive and are restored via the restoreFiles endpoint or purged via operations
+# action=delete with path "/<TRASH_FOLDER_ID>/".
+# NOTE: this id is per-user/tenant. TrashPage reads it live from the Trash tree
+# node's data-id at runtime; this constant is only a fallback. The value below
+# is the Trash node for VALID_USERNAME (ankit@gmail.com), sibling of
+# MY_DRIVE_FOLDER_ID / SHARED_WITH_ME_FOLDER_ID.
+TRASH_FOLDER_ID = "6997edafefbab23233cfbd3a"
 
 # ── Upload config ─────────────────────────────────────────────
 # Absolute path avoids Windows forward-slash/backslash mismatch

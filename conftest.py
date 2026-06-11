@@ -136,6 +136,9 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "shortcut: Combined UI + API tests for Create Shortcut module"
     )
+    config.addinivalue_line(
+        "markers", "trash: Combined UI + API tests for Trash module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────
