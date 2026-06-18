@@ -43,6 +43,8 @@ SHEET_MAP = {
     "TC_CP":       "Copy-paste",
     "TC_Shortcut": "Create Shortcut",
     "TC_Trash":    "Trash",
+    "SRCH_ADV":    "Advance search",
+    "TC_Tag":      "Tag",
 }
 
 # ── Excel column indices (1-based for openpyxl) ───────────────
@@ -72,7 +74,8 @@ PRIORITY = {"passed": 1, "skipped": 2, "failed": 3}
 # Matches:  test_TC_Login_01_valid_login → TC_Login_01
 #           test_TC_UpLoad_08_minimum    → TC_UpLoad_08
 TC_ID_PATTERN = re.compile(
-    r"(TC_(?:Login|UpLoad|Creation|Delete|Rename|Move|Share|CP|Shortcut|Trash)_\d+)",
+    r"(TC_(?:Login|UpLoad|Creation|Delete|Rename|Move|Share|CP|Shortcut|Trash|Tag)_\d+"
+    r"|SRCH_ADV\d+_TC\d+)",
     re.IGNORECASE,
 )
 
@@ -368,7 +371,7 @@ class ExcelReporter:
         count = 0
         for row_idx in range(1, ws.max_row + 1):
             value = ws.cell(row=row_idx, column=COL_TC_ID).value
-            if value and re.match(r"TC_\w+_\d+", str(value).strip()):
+            if value and re.match(r"(TC_\w+_\d+|SRCH_ADV\d+_TC\d+)", str(value).strip()):
                 count += 1
         return count
 

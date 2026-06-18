@@ -139,6 +139,12 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers", "trash: Combined UI + API tests for Trash module"
     )
+    config.addinivalue_line(
+        "markers", "advance_search: Combined UI + API tests for Advanced Search module"
+    )
+    config.addinivalue_line(
+        "markers", "tag: Combined UI + API tests for Tag module"
+    )
 
 
 # ── Shared API client fixture ─────────────────────────────────

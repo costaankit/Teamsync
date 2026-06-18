@@ -24,6 +24,16 @@ ENDPOINTS = {
     "share"          : f"{BASE_URL}/api/dms_service_LM/api/shareWithUsers",
     "shortcuts"      : f"{BASE_URL}/api/dms_service_LM/api/shortcuts",
     "restore_files"  : f"{BASE_URL}/api/dms_service_LM/api/restoreFiles",
+    # ── Advanced Search ──────────────────────────────────────
+    # The search itself reuses `operations` (action="read" + a "filter" object).
+    # These three feed the panel's dropdowns / attribute fields.
+    "get_file_types" : f"{BASE_URL}/api/dms_service_LM/api/getAllFileType",
+    "themes"         : f"{BASE_URL}/api/dms_service_LM/api/themes",
+    "get_att_detail" : f"{BASE_URL}/api/dms_service_LM/api/getAttDetail",
+    # ── Tags (themes) ────────────────────────────────────────
+    # GET themes -> list, POST themes -> create {themeName, color}.
+    # change-file-themes assigns/updates a file's tags {fileId, themeIds[]}.
+    "change_file_themes" : f"{BASE_URL}/api/dms_service_LM/api/change-file-themes",
 }
 
 # ── Share-test recipients ─────────────────────────────────────
@@ -121,6 +131,13 @@ DEFAULT_HEADERS = {
 VALID_USERNAME           = "ankit@gmail.com"
 VALID_PASSWORD           = "test"
 VALID_PASSWORD_ENCRYPTED = VALID_PASSWORD      # same value — browser sends plain text
+
+# ── Advanced Search credentials ───────────────────────────────
+# Used ONLY by the Advanced Search module. Pratibha's drive is pre-seeded with
+# documents (types/tags/attributes/dates) that the filter test cases rely on.
+# Do NOT use these in any other module.
+SEARCH_USERNAME = "pratibha@gmail.com"
+SEARCH_PASSWORD = "test"
 
 # ── Invalid / negative test credentials ──────────────────────
 WRONG_PASSWORD           = "WrongPass@999"
