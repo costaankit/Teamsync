@@ -31,7 +31,7 @@ pipeline {
                 sh '''
                 mkdir -p reports
  
-                pytest tests/login/ tests/upload/ tests/share tests/creation/ tests/rename/ tests/move/ tests/copy_paste tests/delete/ \
+                pytest tests/login/ tests/upload/ tests/share tests/creation/ tests/rename/ tests/move/ tests/copy_paste tests/delete/ tests/tag  tests/trash tests/advance_search \
                 -v \
                 --html=reports/report.html \
                 --self-contained-html
